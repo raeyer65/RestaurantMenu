@@ -1,0 +1,83 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class RestaurantMenu {
+
+    // Define menu items and their prices
+    private static HashMap<String, Double> menu = new HashMap<>();
+    static {
+        menu.put("CHIPS", 200.0);
+        menu.put("FISH", 250.0);
+        menu.put("REDBULL", 200.0);
+        menu.put("BIRIYANI", 300.0);
+        menu.put("UGALI NYAMA", 250.0);
+        menu.put("SODA", 100.0);
+        menu.put("COCKTAIL", 400.0);
+        menu.put("PORK CHOPS", 400.0);
+        menu.put("WATER", 50.0);
+
+
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        ArrayList<String> order = new ArrayList<>();
+        double totalCost = 0.0;
+        boolean ordering = true;
+
+        // Display menu items and prices
+        System.out.println("Menu:");
+        for (String item : menu.keySet()) {
+            System.out.println(item + " - $" + menu.get(item));
+        }
+
+        // Allow user to add a new menu item and its price
+        System.out.println("Would you like to add an item to the menu? (yes or no)");
+        String addMenu = input.nextLine();
+        if (addMenu.equalsIgnoreCase("yes")) {
+            System.out.println("Enter the item name:");
+            String itemName = input.nextLine();
+            System.out.println("Enter the item price:");
+            double itemPrice = input.nextDouble();
+            input.nextLine(); // consume leftover newline character
+            menu.put(itemName, itemPrice);
+            System.out.println(itemName + " has been added to the menu for $" + itemPrice);
+        }
+
+        // Allow customer to place order
+        while (ordering) {
+            System.out.println("Enter the name of the item you would like to order (or type 'done' to finish):");
+            String itemName = input.nextLine();
+            if (itemName.equalsIgnoreCase("done")) {
+                ordering = false;
+            } else if (menu.containsKey(itemName)) {
+                order.add(itemName);
+                totalCost += menu.get(itemName);
+                System.out.println(itemName + " has been added to your order.");
+            } else {
+                System.out.println("Sorry, we don't have that item.");
+            }
+        }
+
+        // Display order and total cost
+        System.out.println("Your order:");
+        for (String item : order) {
+            System.out.println("- " + item);
+        }
+        System.out.println("Total cost: $" + totalCost);
+
+        // Allow user to make payment via mobile money
+        System.out.println("Would you like to pay via mobile money? (yes or no)");
+        String payment = input.nextLine();
+        if (payment.equalsIgnoreCase("yes")) {
+ 
+            
+            System.out.println("Payment successful. Thank you for dining with us!");
+        } else {
+            System.out.println("Payment must be made to complete the order.");
+        }
+
+        input.close();
+    }
+}
